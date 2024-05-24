@@ -6,6 +6,8 @@ import pandas as pd
 import time
 from talib import abstract
 import progressbar
+from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 path = 'big_data/5min/'
 csv_file_path = 'big_data/ml_v1/5min/'
@@ -264,31 +266,93 @@ csv_file_path = 'big_data/ml_v1/5min/'
 #     print(f'{count_bar}/{len(coin)} | {coin_name} добавлен')
 # print('Шаг 5. Выполнено')  
 
+# # ШАГ 6
+# # Добавляем значения прижатия к коридору
+# print('Шаг 6. Чистим от первых 31 пустых значений. Приступаем')
+# hall_mass = []
+# coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
+# bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
+# count_step_6 = 0
+# for coin_name in coin:
+#     coin_name = coin_name[:-4] # чистим названия от расширения .csv - оставляем только название монеты
+#     df = pd.read_csv(f'{csv_file_path}{coin_name}.csv')
+#     bar.update(count_step_6)
+#     count_step_6+=1
+#     df = df.drop (index=[ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 ]) 
+#     df.to_csv(f'{csv_file_path}{coin_name}.csv', index=False) 
+# print('Шаг 6. Сделано') 
+
+
+# 7 шаг - это торговля на табличных данных - trade.py
+
+
+# # ШАГ 8
+# # обрезаем последние 16 элементов в дф
+# print('Шаг 7. Обрезаем последние 16 элементов в дф. Приступаем')
+# coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
+# bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
+# count_step_6 = 0
+# for coin_name in coin:
+#     coin_name = coin_name[:-4] # чистим названия от расширения .csv - оставляем только название монеты
+#     df = pd.read_csv(f'{csv_file_path}{coin_name}.csv')
+#     bar.update(count_step_6)
+#     count_step_6+=1
+#     df = df.drop (index=[len(df)-1,len(df)-2,len(df)-3,len(df)-4,len(df)-5,len(df)-6,len(df)-7,len(df)-8,len(df)-9,len(df)-10,len(df)-11,len(df)-12,len(df)-13,len(df)-14,len(df)-15,len(df)-16]) 
+#     df.to_csv(f'{csv_file_path}{coin_name}.csv', index=False) 
+# print('Шаг 8. Сделано') 
+
+
+# # # ШАГ 9
+# # # цикл ниже удаляет ненужные столбцы
+# print('Шаг 9. Удаляем ненужные столбцы. Приступаем')
+# coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
+# bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
+# for i in range(len(coin)):
+#     coin[i] = coin[i][:-4] # чистим названия от расширения .csv - оставляем только название монеты
+#     df = pd.read_csv(f'{csv_file_path}{coin[i]}.csv')
+#     df_new = df.drop(['CDLEVENINGSTAR'], axis=1)
+#     df_new.to_csv(f'{csv_file_path}{coin[i]}.csv', index=False)
+#     bar.update(i)
+# print('Шаг 9. Выполнено')
+
+# # ШАГ 10
+# # Нормализация данных - пока не работает
+# print('Шаг 9. Нормализация данных. Приступаем')
+# coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
+# bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
+# for i in range(len(coin)):
+#     coin[i] = coin[i][:-4] # чистим названия от расширения .csv - оставляем только название монеты
+#     df = pd.read_csv(f'{csv_file_path}{coin[i]}.csv')
+    
+#     X = df[df.columns[:-1]].values
+#     y = df[df.columns[-1]].values
+
+#     images_flat = tf.contrib.layers.flatten(X)
+
+#     data = np.hstack((images_flat,np.reshape(y,(-1,1))))
+#     DF = pd.DataFrame(data) 
+
+#     DF.to_csv(f'{csv_file_path}{coin[i]}.csv', index=False)
+#     bar.update(i)
+#     time.sleep(20000)
+# print('Шаг 9. Выполнено')
+
+
 # ШАГ 6
 # Добавляем значения прижатия к коридору
-print('Шаг 6. Чистим от первых 31 пустых значений. Приступаем')
-hall_mass = []
-coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
-bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
-count_step_6 = 0
-for coin_name in coin:
-    coin_name = coin_name[:-4] # чистим названия от расширения .csv - оставляем только название монеты
-    df = pd.read_csv(f'{csv_file_path}{coin_name}.csv')
-    bar.update(count_step_6)
-    count_step_6+=1
-    df = df.drop (index=[ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 ]) 
-    df.to_csv(f'{csv_file_path}{coin_name}.csv', index=False) 
-print('Шаг 6. Сделано') 
-
-
-
-
-
-
-
-
-
-
+# print('Шаг 6. Чистим от первых 31 пустых значений. Приступаем')
+# hall_mass = []
+# coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
+# bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
+# count_step_6 = 0
+# for coin_name in coin:
+#     coin_name = coin_name[:-4] # чистим названия от расширения .csv - оставляем только название монеты
+#     df = pd.read_csv(f'{csv_file_path}{coin_name}.csv')
+#     bar.update(count_step_6)
+#     count_step_6+=1
+#     df = df.drop (index=[ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]) 
+#     df.to_csv(f'{csv_file_path}{coin_name}.csv', index=False) 
+# print('Шаг 6. Сделано') 
 
 
 
