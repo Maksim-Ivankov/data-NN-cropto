@@ -61,10 +61,12 @@ csv_file_path = 'big_data/ml_v1/5min/'
 # hall_mass = []
 # coin = next(os.walk(f'{csv_file_path}/'))[2] # получаем все названия файлов в папке 0 - монеты
 # bar = progressbar.ProgressBar(maxval=len(coin)).start() # прогресс бар в консоли
+# count = 0
 # for coin_name in coin:
 #     coin_name = coin_name[:-4] # чистим названия от расширения .csv - оставляем только название монеты
 #     df = pd.read_csv(f'{csv_file_path}{coin_name}.csv')
-#     bar.update(coin_name)
+#     bar.update(count)
+#     count+=1
 #     a = abstract.BBANDS(df, timeperiod=5, nbdevup=2.0, nbdevdn=2.0, matype=0)
 #     hall_mass[:] = []
 #     for index, row in df.iterrows():
@@ -132,48 +134,48 @@ csv_file_path = 'big_data/ml_v1/5min/'
 #     WMA_mas[:] = []
 #     ADX_mas[:] = []
 #     ADXR_mas[:] = []
-#     APO_mas[:] = []
-#     AROON_mas_down[:] = []
-#     AROON_mas_up[:] = []
-#     BOP_mas[:] = []
-#     CCI_mas[:] = []
-#     CMO_mas[:] = []
-#     DX_mas[:] = []
-#     MACD_mas[:] = []
-#     MFI_mas[:] = []
-#     MINUS_DI_mas[:] = []
-#     MINUS_DM_mas[:] = []
-#     MOM_mas[:] = []
-#     PLUS_DI_mas[:] = []
-#     ROC_mas[:] = []
-#     CDLEVENINGSTAR_mas[:] = []
-#     DEMA = abstract.DEMA(df, timeperiod=30)
-#     EMA = abstract.EMA(df, timeperiod=30)
+#     # APO_mas[:] = []
+#     # AROON_mas_down[:] = []
+#     # AROON_mas_up[:] = []
+#     # BOP_mas[:] = []
+#     # CCI_mas[:] = []
+#     # CMO_mas[:] = []
+#     # DX_mas[:] = []
+#     # MACD_mas[:] = []
+#     # MFI_mas[:] = []
+#     # MINUS_DI_mas[:] = []
+#     # MINUS_DM_mas[:] = []
+#     # MOM_mas[:] = []
+#     # PLUS_DI_mas[:] = []
+#     # ROC_mas[:] = []
+#     # CDLEVENINGSTAR_mas[:] = []
+#     DEMA = abstract.DEMA(df, timeperiod=25)
+#     EMA = abstract.EMA(df, timeperiod=22)
 #     HT_TRENDLINE = abstract.HT_TRENDLINE(df)
-#     KAMA = abstract.KAMA(df, timeperiod=30)
-#     MA = abstract.MA(df, timeperiod=30, matype=0)
-#     MIDPOINT = abstract.MIDPOINT(df, timeperiod=14)
-#     MIDPRICE = abstract.MIDPRICE(df, timeperiod=14)
-#     SMA = abstract.SMA(df, timeperiod=30)
-#     TEMA = abstract.TEMA(df, timeperiod=30)
-#     TRIMA = abstract.TRIMA(df, timeperiod=30)
-#     WMA = abstract.WMA(df, timeperiod=30)
-#     ADX = abstract.ADX(df,14)
-#     ADXR = abstract.ADXR(df,14)
-#     APO = abstract.APO(df,14)
-#     AROON = abstract.AROON(df,14)
-#     BOP = abstract.BOP(df,14)
-#     CCI = abstract.CCI(df,14)
-#     CMO = abstract.CMO(df,14)
-#     DX = abstract.DX(df,14)
-#     MACD = abstract.MACD(df,12, 26, 9)
-#     MFI = abstract.MFI(df,14)
-#     MINUS_DI = abstract.MINUS_DI(df,14)
-#     MINUS_DM = abstract.MINUS_DM(df,14)
-#     MOM = abstract.MOM(df,14)
-#     PLUS_DI = abstract.PLUS_DI(df,14)
-#     ROC = abstract.ROC(df, 14)
-#     CDLEVENINGSTAR = abstract.CDLEVENINGSTAR(df)
+#     KAMA = abstract.KAMA(df, timeperiod=28)
+#     MA = abstract.MA(df, timeperiod=18, matype=0)
+#     MIDPOINT = abstract.MIDPOINT(df, timeperiod=8)
+#     MIDPRICE = abstract.MIDPRICE(df, timeperiod=10)
+#     SMA = abstract.SMA(df, timeperiod=24)
+#     TEMA = abstract.TEMA(df, timeperiod=27)
+#     TRIMA = abstract.TRIMA(df, timeperiod=21)
+#     WMA = abstract.WMA(df, timeperiod=29)
+#     ADX = abstract.ADX(df,13)
+#     ADXR = abstract.ADXR(df,7)
+#     # APO = abstract.APO(df,14)
+#     # AROON = abstract.AROON(df,14)
+#     # BOP = abstract.BOP(df,14)
+#     # CCI = abstract.CCI(df,14)
+#     # CMO = abstract.CMO(df,14)
+#     # DX = abstract.DX(df,14)
+#     # MACD = abstract.MACD(df,12, 26, 9)
+#     # MFI = abstract.MFI(df,14)
+#     # MINUS_DI = abstract.MINUS_DI(df,14)
+#     # MINUS_DM = abstract.MINUS_DM(df,14)
+#     # MOM = abstract.MOM(df,14)
+#     # PLUS_DI = abstract.PLUS_DI(df,14)
+#     # ROC = abstract.ROC(df, 14)
+#     # CDLEVENINGSTAR = abstract.CDLEVENINGSTAR(df)
 #     for index, row in df.iterrows():
 #         bar.update(index)
 #         if index >30:
@@ -190,21 +192,21 @@ csv_file_path = 'big_data/ml_v1/5min/'
 #             WMA_mas.append(round(WMA[index-1],8))
 #             ADX_mas.append(round(ADX[index-1],8))
 #             ADXR_mas.append(round(ADXR[index-1],8))
-#             APO_mas.append(round(APO[index-1],8))
-#             AROON_mas_down.append(round(AROON['aroondown'][index-1],8))
-#             AROON_mas_up.append(round(AROON['aroonup'][index-1],8))
-#             BOP_mas.append(round(BOP[index-1],8))
-#             CCI_mas.append(round(CCI[index-1],8))
-#             CMO_mas.append(round(CMO[index-1],8))
-#             DX_mas.append(round(DX[index-1],8))
-#             MACD_mas.append(round(MACD['macdsignal'][index-1],8))
-#             MFI_mas.append(round(MFI[index-1],8))
-#             MINUS_DI_mas.append(round(MINUS_DI[index-1],8))
-#             MINUS_DM_mas.append(round(MINUS_DM[index-1],8))
-#             MOM_mas.append(round(MOM[index-1],8))
-#             PLUS_DI_mas.append(round(PLUS_DI[index-1],8))
-#             ROC_mas.append(round(ROC[index-1],8))
-#             CDLEVENINGSTAR_mas.append(round(CDLEVENINGSTAR[index-1],8))
+#             # APO_mas.append(round(APO[index-1],8))
+#             # AROON_mas_down.append(round(AROON['aroondown'][index-1],8))
+#             # AROON_mas_up.append(round(AROON['aroonup'][index-1],8))
+#             # BOP_mas.append(round(BOP[index-1],8))
+#             # CCI_mas.append(round(CCI[index-1],8))
+#             # CMO_mas.append(round(CMO[index-1],8))
+#             # DX_mas.append(round(DX[index-1],8))
+#             # MACD_mas.append(round(MACD['macdsignal'][index-1],8))
+#             # MFI_mas.append(round(MFI[index-1],8))
+#             # MINUS_DI_mas.append(round(MINUS_DI[index-1],8))
+#             # MINUS_DM_mas.append(round(MINUS_DM[index-1],8))
+#             # MOM_mas.append(round(MOM[index-1],8))
+#             # PLUS_DI_mas.append(round(PLUS_DI[index-1],8))
+#             # ROC_mas.append(round(ROC[index-1],8))
+#             # CDLEVENINGSTAR_mas.append(round(CDLEVENINGSTAR[index-1],8))
 #         else:
 #             DEMA_mas.append(0)
 #             EMA_mas.append(0)
@@ -219,21 +221,21 @@ csv_file_path = 'big_data/ml_v1/5min/'
 #             WMA_mas.append(0)
 #             ADX_mas.append(0)
 #             ADXR_mas.append(0)
-#             APO_mas.append(0)
-#             AROON_mas_down.append(0)
-#             AROON_mas_up.append(0)
-#             BOP_mas.append(0)
-#             CCI_mas.append(0)
-#             CMO_mas.append(0)
-#             DX_mas.append(0)
-#             MACD_mas.append(0)
-#             MFI_mas.append(0)
-#             MINUS_DI_mas.append(0)
-#             MINUS_DM_mas.append(0)
-#             MOM_mas.append(0)
-#             PLUS_DI_mas.append(0)
-#             ROC_mas.append(0)
-#             CDLEVENINGSTAR_mas.append(0)
+#             # APO_mas.append(0)
+#             # AROON_mas_down.append(0)
+#             # AROON_mas_up.append(0)
+#             # BOP_mas.append(0)
+#             # CCI_mas.append(0)
+#             # CMO_mas.append(0)
+#             # DX_mas.append(0)
+#             # MACD_mas.append(0)
+#             # MFI_mas.append(0)
+#             # MINUS_DI_mas.append(0)
+#             # MINUS_DM_mas.append(0)
+#             # MOM_mas.append(0)
+#             # PLUS_DI_mas.append(0)
+#             # ROC_mas.append(0)
+#             # CDLEVENINGSTAR_mas.append(0)
 #     df['DEMA'] = DEMA_mas
 #     df['EMA'] = EMA_mas
 #     df['HT_TRENDLINE'] = HT_TRENDLINE_mas
@@ -247,21 +249,21 @@ csv_file_path = 'big_data/ml_v1/5min/'
 #     df['WMA'] = WMA_mas
 #     df['ADX'] = ADX_mas
 #     df['ADXR'] = ADXR_mas
-#     df['APO'] = APO_mas
-#     df['AROON_down'] = AROON_mas_down
-#     df['AROON_up'] = AROON_mas_up
-#     df['BOP'] = BOP_mas
-#     df['CCI'] = CCI_mas
-#     df['CMO'] = CMO_mas
-#     df['DX'] = DX_mas
-#     df['MACD'] = MACD_mas
-#     df['MFI'] = MFI_mas
-#     df['MINUS_DI'] = MINUS_DI_mas
-#     df['MINUS_DM'] = MINUS_DM_mas
-#     df['MOM'] = MOM_mas
-#     df['PLUS_DI'] = PLUS_DI_mas
-#     df['ROC'] = ROC_mas
-#     df['CDLEVENINGSTAR'] = CDLEVENINGSTAR_mas
+#     # df['APO'] = APO_mas
+#     # df['AROON_down'] = AROON_mas_down
+#     # df['AROON_up'] = AROON_mas_up
+#     # df['BOP'] = BOP_mas
+#     # df['CCI'] = CCI_mas
+#     # df['CMO'] = CMO_mas
+#     # df['DX'] = DX_mas
+#     # df['MACD'] = MACD_mas
+#     # df['MFI'] = MFI_mas
+#     # df['MINUS_DI'] = MINUS_DI_mas
+#     # df['MINUS_DM'] = MINUS_DM_mas
+#     # df['MOM'] = MOM_mas
+#     # df['PLUS_DI'] = PLUS_DI_mas
+#     # df['ROC'] = ROC_mas
+#     # df['CDLEVENINGSTAR'] = CDLEVENINGSTAR_mas
 #     df.to_csv(f'{csv_file_path}{coin_name}.csv', index=False)  
 #     print(f'{count_bar}/{len(coin)} | {coin_name} добавлен')
 # print('Шаг 5. Выполнено')  
@@ -278,7 +280,7 @@ csv_file_path = 'big_data/ml_v1/5min/'
 #     df = pd.read_csv(f'{csv_file_path}{coin_name}.csv')
 #     bar.update(count_step_6)
 #     count_step_6+=1
-#     df = df.drop (index=[ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 ]) 
+#     df = df.drop (index=[ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25 ]) 
 #     df.to_csv(f'{csv_file_path}{coin_name}.csv', index=False) 
 # print('Шаг 6. Сделано') 
 

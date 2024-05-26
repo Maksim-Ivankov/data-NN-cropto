@@ -37,12 +37,12 @@ def print_trade(model):
     y = model.predict(np.array([row[:-2]], dtype=float))
     predskasanie_celka.append(y)
     if y[0][0]!=1 and y[0][1]!=1:
-      if y[0][0]<0.1:long = 0
-      elif y[0][0]>=0.9: long = 1
-      else: long = -1
-      if y[0][1]<0.1:short = 0
-      elif y[0][1]>=0.9: short = 1
-      else: short = -1
+      if y[0][0]<0.1:long = 1
+      elif y[0][0]>=0.9: long = 0
+      else: long = 0
+      if y[0][1]<0.1:short = 1
+      elif y[0][1]>=0.9: short = 0
+      else: short = 0
       trade_mas.append([number_df_test,long,short])
     number_df_test+=1
   print(f'{len(df_test)} | {len(trade_mas)}')
@@ -67,7 +67,7 @@ def print_trade(model):
     if flag_trade == 0:
       for res in trade_mas:
         # print(f'{index == (res[0]+31500)} | {index} | {res[0]+31500} |')
-        if index == (res[0]+30300) and res[1] >=0 and res[2] >= 0:
+        if index == (res[0]+30300):
           if res[1] == 1 and res[2] == 1:
             # see_trade = 'long'
             # price_trade = row['open']
@@ -181,41 +181,9 @@ train_data, X_train, y_train = scale_dataset(train)
 valid_data, X_valid, y_valid = scale_dataset(valid)
 test_data, X_test, y_test = scale_dataset(test)
 
-# def train_model(X_train, y_train):
-#   nn_model = tf.keras.Sequential([
-#       tf.keras.layers.Dense(33, activation='relu', input_shape=(33,)),
-#       tf.keras.layers.Dropout(0.2),
-#       tf.keras.layers.Dense(3, activation='selu'),
-#       tf.keras.layers.Dropout(0.2),
-#       tf.keras.layers.Dense(2, activation='sigmoid')
-#   ])
-
-#   nn_model.compile(optimizer=tf.keras.optimizers.Adam(0.005), loss='MAE',
-#                   metrics=['accuracy'])
-#   history = nn_model.fit(
-#     X_train, y_train, epochs=100, batch_size=64, validation_split=0.2
-#   )
-
-#   return nn_model, history
-
-# least_val_loss = float('inf')
-# least_loss_model = None
-# title_graph = f"66, 0.2, 0.005, 128"
-# model, history = train_model(X_train, y_train)
-# plot_history(history,title_graph,model)
-# val_loss = model.evaluate(X_valid, y_valid)[0]
-# if val_loss < least_val_loss:
-#   least_val_loss = val_loss
-#   least_loss_model = model
-
 def train_model(X_train, y_train, num_nodes, dropout_prob, lr, batch_size, epochs,activat_1,activat_2,activat_3,potery):
   nn_model = tf.keras.Sequential([
-      # tf.keras.layers.Dense(num_nodes, activation='relu', input_shape=(33,)),
-      # tf.keras.layers.Dropout(dropout_prob),
-      # tf.keras.layers.Dense(num_nodes, activation='relu'),
-      # tf.keras.layers.Dropout(dropout_prob),
-      # tf.keras.layers.Dense(2, activation='sigmoid')
-      tf.keras.layers.Dense(dropout_prob, activation=activat_1, input_shape=(33,)),
+      tf.keras.layers.Dense(dropout_prob, activation=activat_1, input_shape=(19,)),
       tf.keras.layers.Dropout(0.2),
       tf.keras.layers.Dense(num_nodes, activation=activat_2),
       tf.keras.layers.Dropout(0.2),
@@ -232,26 +200,44 @@ def train_model(X_train, y_train, num_nodes, dropout_prob, lr, batch_size, epoch
 
 least_val_loss = float('inf')
 least_loss_model = None
-epochs=100
-for i in range(200):
-  num_nodes = random.choice([2,5,10,15,20,30,50,100])
-  dropout_prob = random.choice([2,5,10,15,20,30,50,100])
-  lr = random.choice([0.01, 0.005, 0.001])
-  batch_size = random.choice([32, 64, 128])
-  activat_1 = random.choice(['elu','exponential','gelu','hard_sigmoid','hard_silu','hard_swish','leaky_relu','linear','log_softmax','mish','relu','selu','sigmoid','silu','softmax','softplus','softsign','swish','tanh'])
-  activat_2 = random.choice(['elu','exponential','gelu','hard_sigmoid','hard_silu','hard_swish','leaky_relu','linear','log_softmax','mish','relu','selu','sigmoid','silu','softmax','softplus','softsign','swish','tanh'])
-  activat_3 = random.choice(['elu','exponential','gelu','hard_sigmoid','hard_silu','hard_swish','leaky_relu','linear','log_softmax','mish','relu','selu','sigmoid','silu','softmax','softplus','softsign','swish','tanh'])
-  potery = random.choice(['binary_crossentropy','MAE','MAPE','MSE','MSLE','binary_focal_crossentropy','categorical_crossentropy','categorical_focal_crossentropy','cosine_similarity','dice','hinge','huber','kld','mae','mape','mse','msle','poisson','squared_hinge','tversky'])
-  title_graph = f"{num_nodes}|{dropout_prob}|{lr}|{batch_size}|{activat_1}\n|{activat_2}|{activat_3}|{potery}"
-  model, history = train_model(X_train, y_train, num_nodes, dropout_prob, lr, batch_size, epochs,activat_1,activat_2,activat_3,potery)
-  plot_history(history,title_graph,model,i)
-  val_loss = model.evaluate(X_valid, y_valid)[0]
-  if val_loss < least_val_loss:
-    least_val_loss = val_loss
-    least_loss_model = model
+epochs=200
+num_nodes = 15
+dropout_prob = 20
+lr = 0.001
+batch_size = 64
+activat_1 = 'linear'
+activat_2 = 'gelu'
+activat_3 = 'relu'
+potery = 'msle'
+title_graph = f"{num_nodes}|{dropout_prob}|{lr}|{batch_size}|{activat_1}\n|{activat_2}|{activat_3}|{potery}"
+model, history = train_model(X_train, y_train, num_nodes, dropout_prob, lr, batch_size, epochs,activat_1,activat_2,activat_3,potery)
+plot_history(history,title_graph,model,4)
+val_loss = model.evaluate(X_valid, y_valid)[0]
+if val_loss < least_val_loss:
+  least_val_loss = val_loss
+  least_loss_model = model
 
 
 
+# least_val_loss = float('inf')
+# least_loss_model = None
+# epochs=100
+# for i in range(200):
+#   num_nodes = random.choice([2,5,10,15,20,30,50,100])
+#   dropout_prob = random.choice([2,5,10,15,20,30,50,100])
+#   lr = random.choice([0.01, 0.005, 0.001])
+#   batch_size = random.choice([32, 64, 128])
+#   activat_1 = random.choice(['elu','exponential','gelu','hard_sigmoid','hard_silu','hard_swish','leaky_relu','linear','log_softmax','mish','relu','selu','sigmoid','silu','softmax','softplus','softsign','swish','tanh'])
+#   activat_2 = random.choice(['elu','exponential','gelu','hard_sigmoid','hard_silu','hard_swish','leaky_relu','linear','log_softmax','mish','relu','selu','sigmoid','silu','softmax','softplus','softsign','swish','tanh'])
+#   activat_3 = random.choice(['elu','exponential','gelu','hard_sigmoid','hard_silu','hard_swish','leaky_relu','linear','log_softmax','mish','relu','selu','sigmoid','silu','softmax','softplus','softsign','swish','tanh'])
+#   potery = random.choice(['binary_crossentropy','MAE','MAPE','MSE','MSLE','binary_focal_crossentropy','categorical_crossentropy','categorical_focal_crossentropy','cosine_similarity','dice','hinge','huber','kld','mae','mape','mse','msle','poisson','squared_hinge','tversky'])
+#   title_graph = f"{num_nodes}|{dropout_prob}|{lr}|{batch_size}|{activat_1}\n|{activat_2}|{activat_3}|{potery}"
+#   model, history = train_model(X_train, y_train, num_nodes, dropout_prob, lr, batch_size, epochs,activat_1,activat_2,activat_3,potery)
+#   plot_history(history,title_graph,model,i)
+#   val_loss = model.evaluate(X_valid, y_valid)[0]
+#   if val_loss < least_val_loss:
+#     least_val_loss = val_loss
+#     least_loss_model = model
 
 
 
